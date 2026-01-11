@@ -52,12 +52,38 @@ void append(List* l, int n){
 	l->len++;
 }
 
+void pop(List* l){
+	l->len--;
+	l->data[l->len] = 0;
+}
+
+int get(List* l, int index){
+	if (index < 0 || index >= l->len){
+		printf("Error fuera de los limites de la lista\n");
+		exit(EXIT_FAILURE);
+	}
+	return l->data[index];
+}
+
+void deleteAt(List* l, int index){
+	if(index >= l->len){
+		printf("Error fuera de los limites de la lista\n");
+		exit(EXIT_FAILURE);
+	}
+	for(int i = index; i < l->len-1; i++){
+		l->data[i] = l->data[i+1];
+	}
+	l->data[l->len-1] = 0;
+	l->len--;
+}
+
 void insertAt(List* l, int n, int index){
 	if( l->len >= l->capacity){
 		copyData(l);
 	}
-	if(index > l->len){
-		l->data[index] = n;
+	if(index > l->len){	
+		printf("Error fuera de los limites de la lista\n");
+		exit(EXIT_FAILURE);
 	}
 	int temp;
 	for(int i = index; i <= l->len; i++){
@@ -73,18 +99,30 @@ void insertAt(List* l, int n, int index){
 
 int main(){
 	List* l = newList();
+	printf("Lista vacia\n");
 	printList(l);
 	append(l, 3);
+	printf("Lista con un 3:\n");
 	printList(l);
 	for(int i = 0; i < 200; i++){
 		append(l, i);
 	}
+	printf("Lista con un 3 y numeros del 0 al 199:\n");
 	printList(l);
 	insertAt(l, 86, 1);
+	printf("Lista con un 3, un 86 y numeros del 0 al 199:\n");
+	printList(l);
+	deleteAt(l, 1);
+	printf("Lista con un 3 y numeros del 0 al 199:\n");
+	printList(l);
+	printf("Lista con un 3 y numeros del 0 al 199 y un 67:\n");
+	insertAt(l, 67, l->len);
+	printList(l);
+	printf("Lista con un 3 y numeros del 0 al 199:\n");
+	pop(l);
 	printList(l);
 	freeList(l);
-	printf("Aa\n");
-	printf("a\n");
+
 	return 0;
 }
 
