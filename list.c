@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-typedef struct List {
-	int len;
-	int capacity;
-	int* data;
-} List;
+#include <stdbool.h>
+#include "list.h"
 
 struct List* newList(){
 	int* arr = (int*)calloc(50, sizeof(int));
@@ -96,33 +93,26 @@ void insertAt(List* l, int n, int index){
 	l->len++;
 }
 
-
-int main(){
-	List* l = newList();
-	printf("Lista vacia\n");
-	printList(l);
-	append(l, 3);
-	printf("Lista con un 3:\n");
-	printList(l);
-	for(int i = 0; i < 200; i++){
-		append(l, i);
+int indexOf(List* l, int value){
+	// Retorna el index de la primera ocurrencia del valor pasado como parametro
+	// Si no se encuentra ninguna ocurrencia, retorna -1
+	for(int i = 0; i < l->len;i++){
+		if( l->data[i] == value){
+			return i;
+		}
 	}
-	printf("Lista con un 3 y numeros del 0 al 199:\n");
-	printList(l);
-	insertAt(l, 86, 1);
-	printf("Lista con un 3, un 86 y numeros del 0 al 199:\n");
-	printList(l);
-	deleteAt(l, 1);
-	printf("Lista con un 3 y numeros del 0 al 199:\n");
-	printList(l);
-	printf("Lista con un 3 y numeros del 0 al 199 y un 67:\n");
-	insertAt(l, 67, l->len);
-	printList(l);
-	printf("Lista con un 3 y numeros del 0 al 199:\n");
-	pop(l);
-	printList(l);
-	freeList(l);
-
-	return 0;
+	return -1;
 }
+
+bool deleteOne(List* l, int value){
+	//Remueve de la lista el primer numero con el valor value
+	int i = indexOf(l, value);
+	if (i == -1) {
+		return false;
+	}
+	deleteAt(l, i);
+	return true;
+}
+
+
 
